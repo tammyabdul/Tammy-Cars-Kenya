@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Dashboard - Tammy Cars Kenya</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>Tammy Cars Kenya</h1>
+  <p>Administrator Dashboard</p>
+  <a href="/logout">Logout</a>
+</header>
+
+<main>
+
+<section class="panel">
+
+  <h2>Add Vehicle</h2>
+
+  <form method="post" action="/admin/add">
+
+    <label>Vehicle title</label>
+    <input name="title" placeholder="Toyota Fielder 2018" required>
+
+    <label>Price (KSh)</label>
+    <input name="price" type="number" required>
+
+    <label>Year</label>
+    <input name="year" type="number">
+
+    <label>Mileage (km)</label>
+    <input name="mileage" type="number">
+
+    <label>County</label>
+    <input name="county" placeholder="Nairobi">
+
+    <label>Image URL</label>
+    <input name="image_url" placeholder="https://...">
+
+    <label>Seller contact</label>
+    <input name="seller_phone">
+
+    <label>Exact location</label>
+    <input name="exact_location">
+
+    <label>Source</label>
+    <input name="source" placeholder="Dealer / Marketplace">
+
+    <label>Original listing URL</label>
+    <input name="source_url" type="url">
+
+    <button type="submit">Add Vehicle</button>
+
+  </form>
+
+</section>
+
+<section class="panel">
+
+  <h2>Vehicle Listings</h2>
+
+  {% for v in vehicles %}
+
+  <article class="admin-car">
+
+    <strong>{{ v.title }}</strong>
+
+    <span>
+      KSh {{ "{:,.0f}".format(v.price or 0) }}
+    </span>
+
+    <span>{{ v.county or "Kenya" }}</span>
+
+    <span>
+      {{ "Active" if v.active else "Hidden" }}
+    </span>
+
+    <a href="/admin/toggle/{{ v.id }}">
+      {{ "Hide" if v.active else "Activate" }}
+    </a>
+
+  </article>
+
+  {% else %}
+
+  <p>No vehicles have been added yet.</p>
+
+  {% endfor %}
+
+</section>
+
+</main>
+
+</body>
+</html>
